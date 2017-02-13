@@ -3,10 +3,18 @@ package com.example.hwg.cniao5shop.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.Indicators.PagerIndicator;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.example.hwg.cniao5shop.R;
 
 
@@ -15,10 +23,90 @@ import com.example.hwg.cniao5shop.R;
  */
 public class HomeFragment extends Fragment {
 
+    private static final String TAG = "HomeFragment" ;
+    private SliderLayout mSliderLayout ;
+    private PagerIndicator mPagerIndicator ;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        return  inflater.inflate(R.layout.fragment_home,container,false);
+        View view = inflater.inflate(R.layout.fragment_home , null) ;
+        mSliderLayout = (SliderLayout) view.findViewById(R.id.slider) ;
+        mPagerIndicator = (PagerIndicator) view.findViewById(R.id.custom_indicator) ;
+
+        initSlider();
+        return  view ;
+    }
+
+    private void initSlider(){
+        TextSliderView textSliderView1 = new TextSliderView(this.getActivity());
+        textSliderView1
+                .description("新品推荐")
+                .image("http://m.360buyimg.com/mobilecms/s300x98_jfs/t2416/102/20949846/13425/a3027ebc/55e6d1b9Ne6fd6d8f.jpg");
+        //设置sliderview的点击事件
+        textSliderView1.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+            @Override
+            public void onSliderClick(BaseSliderView slider) {
+                Toast.makeText(HomeFragment.this.getActivity(), "新品推荐", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        TextSliderView textSliderView2 = new TextSliderView(this.getActivity());
+        textSliderView2
+                .description("时尚男装")
+                .image("http://m.360buyimg.com/mobilecms/s300x98_jfs/t1507/64/486775407/55927/d72d78cb/558d2fbaNb3c2f349.jpg") ;
+        textSliderView2.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+            @Override
+            public void onSliderClick(BaseSliderView slider) {
+                Toast.makeText(HomeFragment.this.getActivity(), "时尚男装", Toast.LENGTH_SHORT).show();
+            }
+        }) ;
+
+        TextSliderView textSliderView3 = new TextSliderView(this.getActivity());
+        textSliderView3
+                .description("家电秒杀")
+                .image("http://m.360buyimg.com/mobilecms/s300x98_jfs/t1363/77/1381395719/60705/ce91ad5c/55dd271aN49efd216.jpg") ;
+        textSliderView3.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+            @Override
+            public void onSliderClick(BaseSliderView slider) {
+                Toast.makeText(HomeFragment.this.getActivity(), "家电秒杀", Toast.LENGTH_SHORT).show();
+            }
+        }) ;
+
+        mSliderLayout.addSlider(textSliderView1);
+        mSliderLayout.addSlider(textSliderView2);
+        mSliderLayout.addSlider(textSliderView3);
+
+        //设置下标的样式
+//        mSliderLayout.setCustomIndicator(mPagerIndicator);
+        mSliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        //设置文字的动画
+        mSliderLayout.setCustomAnimation(new DescriptionAnimation());
+        //设置切换动画
+        mSliderLayout.setPresetTransformer(SliderLayout.Transformer.DepthPage);
+        //设置间隔时间
+        mSliderLayout.setDuration(3000);
+
+        //设置SliderLayout的监听事件
+        mSliderLayout.addOnPageChangeListener(new ViewPagerEx.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Log.i(TAG , "onPageScrolled") ;
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.i(TAG , "onPageSelected") ;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                Log.i(TAG , "onPageScrollStateChanged") ;
+            }
+        });
+
+
+
     }
 }
