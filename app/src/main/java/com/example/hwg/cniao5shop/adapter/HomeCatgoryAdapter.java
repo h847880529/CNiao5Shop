@@ -8,61 +8,90 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.hwg.cniao5shop.R;
+import com.example.hwg.cniao5shop.bean.HomeCategory;
+
+import java.util.List;
 
 /**
- * Created by hwg on 2017/2/13.
+ * Created by Ivan on 15/9/30.
  */
+public class HomeCatgoryAdapter extends RecyclerView.Adapter<HomeCatgoryAdapter.ViewHolder> {
 
-public class HomeCatgoryAdapter extends RecyclerView.Adapter<HomeCatgoryAdapter.MyViewHolder>{
 
-    private LayoutInflater mInflater ;
-    private static int VIEW_TYPE_L = 0 ;
-    private static int VIEW_TYPE_R = 1 ;
+
+    private  static int VIEW_TYPE_L=0;
+    private  static int VIEW_TYPE_R=1;
+
+    private LayoutInflater mInflater;
+
+
+
+    private List<HomeCategory> mList;
+
+    public HomeCatgoryAdapter(List<HomeCategory> list){
+        mList = list;
+    }
+
+
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        mInflater = LayoutInflater.from(parent.getContext()) ;
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int type) {
 
-        if (viewType == VIEW_TYPE_R){
+
+        mInflater = LayoutInflater.from(viewGroup.getContext());
+        if(type == VIEW_TYPE_R){
+
+            return  new ViewHolder(mInflater.inflate(R.layout.template_home_cardview2,viewGroup,false));
         }
-        return null ;
+
+        return  new ViewHolder(mInflater.inflate(R.layout.template_home_cardview,viewGroup,false));
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+
+        HomeCategory category = mList.get(i);
+        viewHolder.textTitle.setText(category.getName());
+        viewHolder.imageViewBig.setImageResource(category.getImgBig());
+        viewHolder.imageViewSmallTop.setImageResource(category.getImgSmallTop());
+        viewHolder.imageViewSmallBottom.setImageResource(category.getImgSmallBottom());
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mList .size();
     }
 
 
     @Override
     public int getItemViewType(int position) {
 
-        if (position % 2 == 0){
-            return VIEW_TYPE_R ;
+        if(position % 2==0){
+            return  VIEW_TYPE_R;
         }
-        else return VIEW_TYPE_L ;
+        else return VIEW_TYPE_L;
+
+
     }
 
-    static class MyViewHolder extends RecyclerView.ViewHolder{
+    static  class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView textTitle ;
-        ImageView imageViewBig ;
-        ImageView imageViewSmallTop ;
-        ImageView imageViewSmallBottom ;
 
-        public MyViewHolder(View itemView) {
+        TextView textTitle;
+        ImageView imageViewBig;
+        ImageView imageViewSmallTop;
+        ImageView imageViewSmallBottom;
+
+        public ViewHolder(View itemView) {
             super(itemView);
+
 
             textTitle = (TextView) itemView.findViewById(R.id.text_title);
             imageViewBig = (ImageView) itemView.findViewById(R.id.imgview_big);
             imageViewSmallTop = (ImageView) itemView.findViewById(R.id.imgview_small_top);
             imageViewSmallBottom = (ImageView) itemView.findViewById(R.id.imgview_small_bottom);
-
         }
+
     }
 }

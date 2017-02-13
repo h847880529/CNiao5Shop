@@ -3,6 +3,7 @@ package com.example.hwg.cniao5shop.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.example.hwg.cniao5shop.R;
+import com.example.hwg.cniao5shop.adapter.HomeCatgoryAdapter;
 import com.example.hwg.cniao5shop.bean.HomeCategory;
 
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ public class HomeFragment extends Fragment {
     private SliderLayout mSliderLayout ;
     private PagerIndicator mPagerIndicator ;
     private RecyclerView mRecyclerView ;
+    private HomeCatgoryAdapter mAdapter ;
 
     @Nullable
     @Override
@@ -65,6 +68,11 @@ public class HomeFragment extends Fragment {
 
         category = new HomeCategory("超值购",R.drawable.img_big_0,R.drawable.img_0_small1,R.drawable.img_0_small2);
         list.add(category);
+
+        mAdapter = new HomeCatgoryAdapter(list) ;
+        mRecyclerView.setAdapter(mAdapter);
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
     }
 
